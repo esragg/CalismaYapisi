@@ -24,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import com.example.calismayapisi.ui.theme.CalismaYapisiTheme
+import com.google.gson.Gson
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,19 +49,14 @@ fun SayfaGecisleri() {
         composable("anasayfa") {
             AnaSayfa(navController = navController)
         }
-        composable("sayfa_a/{isim}/{yas}/{boy}/{bekarMi}",
+        composable("sayfa_a/{nesne}",
             arguments = listOf( //degerleri alma
-                navArgument("isim") { type = NavType.StringType },
-                navArgument("yas") { type = NavType.IntType },
-                navArgument("boy") { type = NavType.FloatType },
-                navArgument("bekarMi") { type = NavType.BoolType }
+                navArgument("nesne") { type = NavType.StringType }
             )
         ) {// degerleri donusturme
-            val isim = it.arguments?.getString("isim")!!
-            val yas = it.arguments?.getInt("yas")!!
-            val boy = it.arguments?.getFloat("boy")!!
-            val bekarMi = it.arguments?.getBoolean("bekarMi")!!
-            SayfaA(navController = navController, isim, yas, boy, bekarMi)
+            val json = it.arguments?.getString("nesne")
+            val nesne = Gson().fromJson(json,Kisiler::class.java)
+            SayfaA(navController = navController, nesne)
         }
         composable("sayfa_b") {
             SayfaB()
@@ -79,8 +75,9 @@ fun AnaSayfa(navController: NavController) {
         Text(text = "Anasayfa", fontSize = 50.sp)
 
         Button(onClick = {
-            val x = "ahmet"
-            navController.navigate("sayfa_a/$x/18/1.78f/true")
+            val kisi = Kisiler("ahmet",18,1.78f,true)
+            val kisiJson = Gson().toJson(kisi) //nesnemi alacak ve JSON turune donusturecek, nesnemi stringlestirdim.
+            navController.navigate("sayfa_a/$kisiJson")
         }) {
             Text(text = "Sayfa A'ya Git")
         }
