@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun SayfaA(navController: NavController) {
+fun SayfaA(navController: NavController, gelenIsim:String,gelenYas:Int,gelenBoy:Float,gelenBekarMi:Boolean) {
 
 
     Column(modifier = Modifier.fillMaxSize(),
@@ -20,6 +20,11 @@ fun SayfaA(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text(text = "Sayfa A", fontSize = 50.sp)
+
+        Text(text = gelenIsim)
+        Text(text = gelenYas.toString())
+        Text(text = gelenBoy.toString())
+        Text(text = gelenBekarMi.toString())
 
         Button(onClick = {
             navController.navigate("sayfa_b")
