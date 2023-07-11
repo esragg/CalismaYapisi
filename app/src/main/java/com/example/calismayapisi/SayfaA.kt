@@ -23,6 +23,9 @@ fun SayfaA(navController: NavController) {
 
         Button(onClick = {
             navController.navigate("sayfa_b")
+            {
+                popUpTo("sayfa_a"){ inclusive = true }
+            }
         }) {
             Text(text = "Sayfa B'ye Git")
         }
